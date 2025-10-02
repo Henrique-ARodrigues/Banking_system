@@ -3,8 +3,14 @@
 //Incluindo o cabecalho, que ja tem o cabecalho de user tambem
 //E a biblioteca da linguagem
 
+
+//Construtor da Conta usando o construtor de User
+BankAccount::BankAccount(const User& user, double saldo_inicial, int numeroConta)
+    : titular(user), saldo(saldo_inicial), conta(numeroConta), extratoIndex(0){
+}
+
 //Faz o deposito na conta do titular
-void Bank::deposito(double valor) {
+void BankAccount::deposito(double valor) {
     saldo += valor;
     //Salva o extrato depois de qualquer alteracao no saldo
     //Isso vai acontece em todas a funcoes que mexem diretamente no saldo
@@ -12,8 +18,9 @@ void Bank::deposito(double valor) {
     extrato[extratoIndex] = saldo;
     extratoIndex++;
 }
+
 //Faz um saque na conta do titular 
-void Bank::saque(double valor) {
+void BankAccount::saque(double valor) {
     //Verifica se existe a possibilidade
     //Isso vai ocorrer em outras funcoes
     if(saldo < valor) {
@@ -27,7 +34,7 @@ void Bank::saque(double valor) {
 }
 
 //Funcoes sobrecarregadas
-void Bank::transferir(double valor, Bank &destino) {
+void BankAccount::transferencia(double valor, BankAccount &destino) {
     if(saldo < valor) {
         std::cout << "Sem saldo para essa quantia" << std::endl;
     }
@@ -35,14 +42,14 @@ void Bank::transferir(double valor, Bank &destino) {
     else {
         saldo -= valor;
         destino.deposito(valor);
-        destino.extrato[extratoIndex] = saldo;
-        destino.extratoIndex++;
+        extrato[extratoIndex] = saldo;
+        extratoIndex++;
     }
-
 }
+
 //Faz uma transferencia de metade do valor que o titular tirou da conta dele
 //E transfere igualmente para duas contas destino
-void Bank::transferir(double valor, Bank &destino1, Bank &destino2) {
+void BankAccount::transferencia(double valor, BankAccount &destino1, BankAccount &destino2) {
     if(saldo < valor) {
         std::cout << "Sem saldo para essa quantia" << std::endl;
     }
@@ -50,31 +57,47 @@ void Bank::transferir(double valor, Bank &destino1, Bank &destino2) {
         double metade = valor / 2;
         saldo -= valor;
         destino1.deposito(metade);
-        destino1.extrato[extratoIndex] = saldo;
-        destino2.extratoIndex++;
         destino2.deposito(metade);
+        extrato[extratoIndex] = saldo;
+        extratoIndex++;
     }
-
 }
+
 //Implementar funcao de extrato da conta
-void Bank::Mostra_extrato() {
-    std::cout << "=== Extrato ===" << std::endl;
+void BankAccount::exibirExtrato() {
+    std::cout << "=== Extrato da Conta " << conta << " ==" << std::endl;
     for(int i = 0; i < extratoIndex; i++) {
         std::cout << ": " << extrato[i] << " :" << std::endl;
-
     }
-    std::cout << "===============" << std::endl;
+    std::cout << "=============================" << std::endl;
+}
 
-}
 //Vai mostrar o saldo atual na conta do titular
-void Bank::Mostra_saldo() const{
-    std::cout << "Saldo atual: R$" << saldo << std::endl; 
+void BankAccount::consultaSaldo() const{
+    std::cout << "Saldo: R$" << saldo << std::endl; 
 }
+
 //Vai mostrar todos os dados do titular exceto o extrato
-void Bank::dados() const{
+void BankAccount::dados() const{
     std::cout << "Saldo atual: R$" << saldo << std::endl;
     std::cout << "Conta: " << conta << std::endl;
 
-    std::cout << "Nome: " << titular.Getter_name() << std::endl;
-    std::cout << "Cpf: " << titular.Getter_cpf() << std::endl;
+    std::cout << "Nome: " << titular.getName() << std::endl;
+    std::cout << "Cpf: " << titular.getCpf() << std::endl;
 }
+
+//Funćão usada para testes, usa um get pra acessar o valor do saldo
+double BankAccount::getSaldo() const{
+    return saldo;
+}
+
+//Getter para pegar numero da conta
+int BankAccount::getNumeroConta() const {
+    return conta;
+}
+
+//Getter para pegar nome do titular
+std::string BankAccount::getTitularName() const {
+    return titular.getName();
+}
+

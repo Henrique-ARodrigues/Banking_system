@@ -2,16 +2,17 @@
 //Incluindo o cabecalho
 
 //Quando chamado vai retornar o que tem na parte privada
-int Users::Getter_cpf() const{
+std::string User::getCpf() const{
     return cpf;
 } 
 
-std::string Users::Getter_name() const{
+std::string User::getName() const{
     return name;
 }
+
 //Vai receber os parametros
 //E atribuir as variaveis
-Users::Users(const std::string& name, int cpf) {
+User::User(const std::string& name, const std::string& cpf) {
     this -> name = name;
     this -> cpf = cpf;
 }

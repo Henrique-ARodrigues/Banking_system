@@ -5,32 +5,50 @@
 //Usando a User.hpp para colocar o titular
 
 //Criando a classe do banco
-class Bank {
+class BankAccount {
     private:
         int conta;
         double saldo;
-        Users titular;
+        User titular;
         double extrato[25] = {0};
         int extratoIndex = 0;
+
     public:
+
+        //Construtor
+        BankAccount(const User& user, double saldo_inicial, int numeroConta);
+
         //Funcao para fazer o deposito na conta do titular
         void deposito(double valor);
+
         //Funcao para fazer o saque na conta do titular
         void saque(double valor);
 
         //Sobrecarga de funcao
         //A primeira vai transferir pra uma unica conta
-        void transferir(double valor, Bank &destino);
+        void transferencia(double valor, BankAccount &destino);
 
-        //Implementar funcao de extrato da conta
-        void Mostra_extrato();
         //A segunda vai transferir o valor igualmente para duas contas
         //O valor tem que ser dividido igualmente para as duas contas
-        void transferir(double valor, Bank &destino1, Bank &destino2);
+        void transferencia(double valor, BankAccount &destino1, BankAccount &destino2);
+
+        //Implementar funcao de extrato da conta
+        void exibirExtrato();
 
         //Mostra o saldo na conta do titular
-        void Mostra_saldo() const;
+        void consultaSaldo() const;
+
         //Mostra os dados do titular e da conta bancaria
         void dados() const;
+
+        //Getters auxiliares usados para testes:
+        //Retorna o saldo
+        double getSaldo() const;
+
+        //Retorna numero da conta
+        int getNumeroConta() const;  
+
+        //Retorna nome do titular
+        std::string getTitularName() const;
 
 };
