@@ -33,7 +33,7 @@ class BankAccount {
         void transferencia(double valor, BankAccount &destino1, BankAccount &destino2);
 
         //Implementar funcao de extrato da conta
-        void exibirExtrato();
+        void exibirExtrato() const;
 
         //Mostra o saldo na conta do titular
         void consultaSaldo() const;

@@ -6,8 +6,9 @@
 
 //Construtor da Conta usando o construtor de User
 BankAccount::BankAccount(const User& user, double saldo_inicial, int numeroConta)
-    : titular(user), saldo(saldo_inicial), conta(numeroConta), extratoIndex(0){
+    : conta(numeroConta), saldo(saldo_inicial), titular(user) { 
 }
+
 
 //Faz o deposito na conta do titular
 void BankAccount::deposito(double valor) {
@@ -64,12 +65,17 @@ void BankAccount::transferencia(double valor, BankAccount &destino1, BankAccount
 }
 
 //Implementar funcao de extrato da conta
-void BankAccount::exibirExtrato() {
-    std::cout << "=== Extrato da Conta " << conta << " ==" << std::endl;
-    for(int i = 0; i < extratoIndex; i++) {
-        std::cout << ": " << extrato[i] << " :" << std::endl;
+void BankAccount::exibirExtrato() const {
+    std::cout << "=== Extrato da Conta " << conta << " ===\n";
+
+    if(extratoIndex == 0) {
+        std::cout << ": " << saldo << " :\n";
+    } else {
+        for(int i = 0; i < extratoIndex; i++) {
+            std::cout << ": R$ " << extrato[i] << " :\n";
+        }
     }
-    std::cout << "=============================" << std::endl;
+    std::cout << "=============================\n";
 }
 
 //Vai mostrar o saldo atual na conta do titular
